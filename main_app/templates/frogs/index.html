@@ -4,18 +4,21 @@
 <h1>Frog List</h1>
 
 {% for frog in frogs %}
-  <div class="card">
+<div class="card">
+  <a href="{% url 'detail' frog.id %} ">
+  <!-- <a href="/frogs/{{ frog.id }}"> -->
     <div class="card-content">
       <span class="card-title">{{ frog.name }}</span>
-      <p>Species: {{ frog.breed }}</p>
-      <p>Description: {{ frog.description }}</p>
+      <p>Species: {{ frog.species }}</p>
+      <!-- <p>Description: {{ frog.description }}</p>
       {% if frog.age > 0 %}
-        <p>Age: {{ frog.age }}</p>
+      <p>Age: {{ frog.age }}</p>
       {% else %}
-        <p>Age: Tadpole</p>
-      {% endif %}
+      <p>Age: Tadpole</p>
+      {% endif %} -->
     </div>
-  </div>
+</div>
+</a>
 {% endfor %}
 
 {% endblock %}
