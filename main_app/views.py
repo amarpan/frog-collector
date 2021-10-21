@@ -34,9 +34,11 @@ def frogs_index(request):
 
 def frogs_detail(request, frog_id):
       frog = Frog.objects.get(id=frog_id)
+      toys_frog_doesnt_have = Toy.objects.exclude(id__in = frog.toys.all().values_list('id'))
       feeding_form = FeedingForm()
       return render(request, 'frogs/detail.html',{
-        'frog': frog, 'feeding_form': feeding_form
+        'frog': frog, 'feeding_form': feeding_form,
+        'toys': toys_frog_doesnt_have
       })
 
 def add_feeding(request, frog_id):
@@ -46,6 +48,11 @@ def add_feeding(request, frog_id):
         new_feeding.frog_id = frog_id
         new_feeding.save()
     return redirect('detail', frog_id=frog_id)
+
+def assoc_toy(request, frog_id, toy_id):
+      # Note that you can pass a toy's id instead of the whole object
+  Frog.objects.get(id=frog_id).toys.add(toy_id)
+  return redirect('detail', frog_id=frog_id)
 
 class ToyList(ListView):
       model = Toy
