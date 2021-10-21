@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Frog
+from django.views.generic import ListView, DetailView
+from .models import Frog, Toy
 from .forms import FeedingForm
 
 class FrogCreate(CreateView):
@@ -18,7 +19,7 @@ class FrogDelete(DeleteView):
     success_url = '/frogs/'
 
 def home(request):
-    return HttpResponse('<h1>Home</h1>')
+    return render(request, 'home.html')
 
 
 def about(request):
@@ -45,3 +46,21 @@ def add_feeding(request, frog_id):
         new_feeding.frog_id = frog_id
         new_feeding.save()
     return redirect('detail', frog_id=frog_id)
+
+class ToyList(ListView):
+      model = Toy
+
+class ToyDetail(DetailView):
+  model = Toy
+
+class ToyCreate(CreateView):
+  model = Toy
+  fields = '__all__'
+
+class ToyUpdate(UpdateView):
+  model = Toy
+  fields = ['name', 'color']
+
+class ToyDelete(DeleteView):
+  model = Toy
+  success_url = '/toys/'
